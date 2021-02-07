@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    #driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5434/sweater?serverTimezone=Europe/Moscow
+    username: sweater
+    password: sweater
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    open-in-view: false
+  freemarker:
+    expose-request-attributes: true
+#      hibernate:
+#        ddl-auto: none
+#      properties:
+#        hibernate:
+#          format_sql: true
+#          dialect: org.hibernate.dialect.PostgreSQL10Dialect
