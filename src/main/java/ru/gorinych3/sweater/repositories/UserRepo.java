@@ -6,4 +6,6 @@ import ru.gorinych3.sweater.domain.User;
 public interface UserRepo extends JpaRepository<User, Long> {
 
     User findUserByUsername(String username);
+
+    User findByActivationCode(String code);
 }
