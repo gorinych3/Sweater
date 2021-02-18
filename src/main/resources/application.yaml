@@ -16,3 +16,4 @@ spring:
 #        hibernate:
 #          format_sql: true
 #          dialect: org.hibernate.dialect.PostgreSQL10Dialect
+upload-path: /media/Media/MyProjects/Projects/Sweater/uploads

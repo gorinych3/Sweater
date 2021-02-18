@@ -15,7 +15,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String userName;
+    private String username;
     private String password;
     private boolean active;
 
@@ -27,11 +27,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
     }
 
     @Override
@@ -54,6 +49,11 @@ public class User implements UserDetails {
         return isActive();
     }
 
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
     public long getId() {
         return id;
     }
@@ -62,17 +62,15 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {
         return password;
     }
+
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -92,6 +90,10 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isAdmin(){
+        return roles.contains(Role.ADMIN);
     }
 
 

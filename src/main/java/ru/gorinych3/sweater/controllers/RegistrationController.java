@@ -28,7 +28,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model){
         System.out.println("Post registration");
-        User actualUser = userRepo.findUserByUserName(user.getUserName());
+        User actualUser = userRepo.findUserByUsername(user.getUsername());
 
         if (actualUser != null){
             System.out.println("User exists!");
@@ -36,7 +36,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        System.out.println(user.getUserName() + " " + user.getPassword());
+        System.out.println(user.getUsername() + " " + user.getPassword());
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));

@@ -5,5 +5,5 @@ import ru.gorinych3.sweater.domain.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    User findUserByUserName(String username);
+    User findUserByUsername(String username);
 }

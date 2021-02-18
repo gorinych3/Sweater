@@ -1,6 +1,5 @@
 package ru.gorinych3.sweater.controllers;
 
-import freemarker.template.utility.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -29,12 +28,14 @@ public class UserController {
 
     @GetMapping
     public String userList(Model model){
+        System.out.println("Get /user");
         model.addAttribute("userList", userService.getAllUsers());
         return "userList";
     }
 
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model){
+        System.out.println("Get /user/{user}");
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "userEdit";
@@ -47,7 +48,8 @@ public class UserController {
             @RequestParam Map<String, String> form,
             Model model){
 
-        user.setUserName(userName);
+        System.out.println("Post /user");
+        user.setUsername(userName);
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
