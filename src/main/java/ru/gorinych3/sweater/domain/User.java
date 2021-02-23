@@ -74,7 +74,6 @@ public class User implements UserDetails {
     }
 
 
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -95,7 +94,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 

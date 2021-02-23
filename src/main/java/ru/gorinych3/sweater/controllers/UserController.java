@@ -2,6 +2,7 @@ package ru.gorinych3.sweater.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +10,10 @@ import ru.gorinych3.sweater.domain.Role;
 import ru.gorinych3.sweater.domain.User;
 import ru.gorinych3.sweater.services.UserService;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -26,43 +23,51 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public String userList(Model model){
+    public String userList(Model model) {
         System.out.println("Get /user");
         model.addAttribute("userList", userService.getAllUsers());
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
-    public String userEditForm(@PathVariable User user, Model model){
+    public String userEditForm(@PathVariable User user, Model model) {
         System.out.println("Get /user/{user}");
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "userEdit";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String userName,
             @RequestParam("userId") User user,
             @RequestParam Map<String, String> form,
-            Model model){
+            Model model) {
 
         System.out.println("Post /user");
-        user.setUsername(userName);
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()){
-            if(roles.contains(key)){
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-        userService.saveUser(user);
+        userService.saveUser(user, userName, form);
 
         return "redirect:/user";
+    }
+
+    @GetMapping("profile")
+    public String getProfile(Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
+
+        return "profile";
+    }
+
+    @PostMapping("profile")
+    public String updateProfile(@AuthenticationPrincipal User user,
+                                @RequestParam(required = false) String email,
+                                @RequestParam(required = false) String password) {
+        userService.updateProfile(user, email, password);
+
+        return "redirect:/user/profile";
     }
 }

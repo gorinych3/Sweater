@@ -62,7 +62,7 @@ public class MainController {
         System.out.println("Post Main");
         Message message = new Message(text, tag, user);
 
-        if(file != null && !file.getOriginalFilename().isEmpty()){
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
 
             System.out.println("file.isEmpty() " + file.isEmpty());
 

@@ -7,12 +7,12 @@
             </div>
         </div>
         <#if isRegisterForm>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Email:</label>
-            <div class="col-sm-6">
-                <input type="email" name="email" class="form-control" placeholder="email@some.com" />
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-6">
+                    <input type="email" name="email" class="form-control" placeholder="email@some.com" />
+                </div>
             </div>
-        </div>
         </#if>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Password:</label>

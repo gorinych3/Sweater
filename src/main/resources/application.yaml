@@ -5,9 +5,11 @@ spring:
     username: sweater
     password: sweater
   jpa:
-    generate-ddl: true
-    show-sql: true
+    generate-ddl: false
+    show-sql: false
     open-in-view: false
+    hibernate:
+      ddl-auto: validate
   freemarker:
     expose-request-attributes: true
   mail:
@@ -19,8 +21,7 @@ spring:
     protocol: smtps
 mail:
   debug: true
-#      hibernate:
-#        ddl-auto: none
+
 #      properties:
 #        hibernate:
 #          format_sql: true

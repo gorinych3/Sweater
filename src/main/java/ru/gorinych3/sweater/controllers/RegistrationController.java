@@ -29,7 +29,7 @@ public class RegistrationController {
     public String addUser(User user, Map<String, Object> model) {
         System.out.println("Post registration");
 
-        if (!userService.saveUser(user)) {
+        if (!userService.addUser(user)) {
             System.out.println("User exists!");
             model.put("message", "User exists!");
             return "registration";
@@ -38,12 +38,12 @@ public class RegistrationController {
     }
 
     @GetMapping("/activate/{code}")
-    public String activate(Model model, @PathVariable String code){
+    public String activate(Model model, @PathVariable String code) {
         System.out.println("Get /activate/{code}");
 
-        boolean isActivate =  userService.activateUser(code);
+        boolean isActivate = userService.activateUser(code);
         String message = "";
-        if (isActivate){
+        if (isActivate) {
             message = "User successfully activated!";
         } else {
             message = "Activation code is not found!";
