@@ -3,6 +3,7 @@ package ru.gorinych3.sweater.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.gorinych3.sweater.domain.Role;
 import ru.gorinych3.sweater.domain.User;
@@ -16,16 +17,23 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepo userRepo;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, MailService mailService) {
+    public UserServiceImpl(UserRepo userRepo, MailService mailService, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return userRepo.findUserByUsername(userName);
+        User user = userRepo.findUserByUsername(userName);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 
     @Override
@@ -43,6 +51,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
 
         sendMessage(user);
@@ -107,7 +116,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (password != null && !password.isEmpty()) {
-            user.setPassword(password);
+            user.setPassword(passwordEncoder.encode(password));
         }
 
         userRepo.save(user);

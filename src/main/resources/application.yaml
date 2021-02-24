@@ -10,6 +10,8 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+  flyway:
+    enabled: false
   freemarker:
     expose-request-attributes: true
   mail:
@@ -19,6 +21,10 @@ spring:
     password: zmlquqcwfwqjymod
     port: 465
     protocol: smtps
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
 mail:
   debug: true
 
@@ -27,3 +33,7 @@ mail:
 #          format_sql: true
 #          dialect: org.hibernate.dialect.PostgreSQL10Dialect
 upload-path: /media/Media/MyProjects/Projects/Sweater/uploads
+recaptcha:
+  secret: 6LdFGWYaAAAAANDaUbVYdEpZQIopFevUbHrUNsWt
+
+
