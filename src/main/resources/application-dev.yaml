@@ -6,12 +6,12 @@ spring:
     password: sweater
   jpa:
     generate-ddl: false
-    show-sql: false
+    show-sql: true
     open-in-view: false
     hibernate:
       ddl-auto: validate
   flyway:
-    enabled: false
+    enabled: true
   freemarker:
     expose-request-attributes: true
   mail:
@@ -26,7 +26,7 @@ spring:
       initialize-schema: always
       table-name: SPRING_SESSION
 mail:
-  debug: false
+  debug: true
 
 #      properties:
 #        hibernate:
@@ -35,5 +35,7 @@ mail:
 upload-path: /media/Media/MyProjects/Projects/Sweater/uploads
 recaptcha:
   secret: 6LdFGWYaAAAAANDaUbVYdEpZQIopFevUbHrUNsWt
+hostname: localhost:8080
+
 
 

@@ -1,6 +1,7 @@
 package ru.gorinych3.sweater.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${hostname}")
+    private String hostName;
 
     private final UserRepo userRepo;
     private final MailService mailService;
@@ -62,8 +66,9 @@ public class UserServiceImpl implements UserService {
         if (!Objects.isNull(user.getEmail()) && !user.getEmail().isEmpty()) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Sweater. Please. visit this link: http://localhost:8080/activate/%s",
+                            "Welcome to Sweater. Please. visit this link: http://%s/activate/%s",
                     user.getUsername(),
+                    hostName,
                     user.getActivationCode());
             mailService.send(user.getEmail(), "Activation code", message);
         }
@@ -124,5 +129,22 @@ public class UserServiceImpl implements UserService {
         if (isEmailChanged) {
             sendMessage(user);
         }
+    }
+
+    @Override
+    public User getUserById(long userId) {
+        return userRepo.findUserById(userId);
+    }
+
+    @Override
+    public void subscribe(User currentUser, User user) {
+        user.getSubscribers().add(currentUser);
+        userRepo.save(user);
+    }
+
+    @Override
+    public void unsubscribe(User currentUser, User user) {
+        user.getSubscribers().remove(currentUser);
+        userRepo.save(user);
     }
 }
